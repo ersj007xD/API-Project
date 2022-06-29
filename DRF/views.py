@@ -25,7 +25,10 @@ def userdetails(request):
         return Response({"status":False, "result":dict(), "message": "records not fetched successfully"})
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def userid_details(request,pk):
+    """User GET API """
     get_obj = User.objects.get(id=pk)
     serializer = UserSerializer(get_obj)
     if serializer:
@@ -37,7 +40,10 @@ def userid_details(request,pk):
 
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def professiondetails(request):
+    """Professon Details GET API"""
     get_obj = Profession.objects.all()
     serializer = ProfessionSerializer(get_obj, many=True)
     if serializer:
@@ -48,7 +54,10 @@ def professiondetails(request):
         return Response({"status":False, "result":dict(), "message": "records not fetched successfully"})
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def professionid_details(request,pk):
+    """Profession Details GET API"""
     get_obj = Profession.objects.get(id=pk)
     serializer = ProfessionSerializer(get_obj)
     if serializer:
