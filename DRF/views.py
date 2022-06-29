@@ -1,10 +1,13 @@
 from functools import partial
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, renderer_classes
 from rest_framework.response import Response
 from .models import User, Profession
 from .serializers import UserSerializer, ProfessionSerializer
+from rest_framework_swagger import renderers
+from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+from rest_framework import response, schemas
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -13,6 +16,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
+@renderer_classes([renderers.OpenAPIRenderer, renderers.SwaggerUIRenderer])
 def userdetails(request):
     """Fetching User Details API"""
     get_obj = User.objects.all()
